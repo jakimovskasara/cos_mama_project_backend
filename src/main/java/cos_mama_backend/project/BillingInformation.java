@@ -31,5 +31,5 @@ public class BillingInformation {
         this.country = country;
     }
 
-    // Add any additional methods you need for your BillingInformation class here
+    // Add any additional methods here
 }
