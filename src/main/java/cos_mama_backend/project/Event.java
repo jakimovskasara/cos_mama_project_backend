@@ -24,5 +24,5 @@ public class Event {
         this.category = category;
     }
 
-    // Add any additional methods you need for your Event class here
+    // Add any additional methods here
 }
