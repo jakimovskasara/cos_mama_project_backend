@@ -173,7 +173,7 @@ public class Admin {
                         resultSet.getInt("id"),
                         resultSet.getString("title"),
                         resultSet.getString("content"),
-                        resultSet.getDate("publish_date").toLocalDate(),
+                        resultSet.getDate("dateOfCreation").toLocalDate(),
                         resultSet.getString("author")
                 );
                 blogs.add(blog);
@@ -198,7 +198,7 @@ public class Admin {
                         resultSet.getInt("id"),
                         resultSet.getString("title"),
                         resultSet.getString("content"),
-                        resultSet.getDate("publish_date").toLocalDate(),
+                        resultSet.getDate("dateOfCreation").toLocalDate(),
                         resultSet.getString("author")
                 );
             }
@@ -209,13 +209,13 @@ public class Admin {
         return blog;
     }
 
-    public void createBlog(String title, String content, String publishDate, String author) {
+    public void createBlog(String title, String content, String dateOfCreation, String author) {
         try (Connection connection = DatabaseManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO blogs (title, content, publish_date, author) VALUES (?, ?, ?, ?)");
+                    "INSERT INTO blogs (title, content, dateOfCreation, author) VALUES (?, ?, ?, ?)");
             preparedStatement.setString(1, title);
             preparedStatement.setString(2, content);
-            preparedStatement.setDate(3, java.sql.Date.valueOf(LocalDate.parse(publishDate)));
+            preparedStatement.setDate(3, java.sql.Date.valueOf(LocalDate.parse(dateOfCreation)));
             preparedStatement.setString(4, author);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -223,13 +223,13 @@ public class Admin {
         }
     }
 
-    public void updateBlog(int id, String title, String content, String publishDate, String author) {
+    public void updateBlog(int id, String title, String content, String dateOfCreation, String author) {
         try (Connection connection = DatabaseManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "UPDATE blogs SET title = ?, content = ?, publish_date = ?, author = ? WHERE id = ?");
+                    "UPDATE blogs SET title = ?, content = ?, dateOfCreation = ?, author = ? WHERE id = ?");
             preparedStatement.setString(1, title);
             preparedStatement.setString(2, content);
-            preparedStatement.setDate(3, java.sql.Date.valueOf(LocalDate.parse(publishDate)));
+            preparedStatement.setDate(3, java.sql.Date.valueOf(LocalDate.parse(dateOfCreation)));
             preparedStatement.setString(4, author);
             preparedStatement.setInt(5, id);
             preparedStatement.executeUpdate();
