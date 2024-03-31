@@ -69,3 +69,178 @@ public class Admin {
 
         return false;
 
+        //Events CRUD
+    public List<Event> getAllEvents() {
+        List<Event> events = new ArrayList<>();
+
+        try (Connection connection = DatabaseManager.getConnection()) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM events");
+
+            while (resultSet.next()) {
+                Event event = new Event(
+                        resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("description"),
+                        resultSet.getDate("start_date").toLocalDate(),
+                        resultSet.getDate("end_date").toLocalDate()
+                );
+                events.add(event);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return events;
+    }
+
+    public Event getEvent(int id) {
+        Event event = null;
+
+        try (Connection connection = DatabaseManager.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM events WHERE id = ?");
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                event = new Event(
+                        resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("description"),
+                        resultSet.getDate("start_date").toLocalDate(),
+                        resultSet.getDate("end_date").toLocalDate()
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return event;
+    }
+
+    public void createEvent(String name, String description, String startDate, String endDate) {
+        try (Connection connection = DatabaseManager.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "INSERT INTO events (name, description, start_date, end_date) VALUES (?, ?, ?, ?)");
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, description);
+            preparedStatement.setDate(3, java.sql.Date.valueOf(LocalDate.parse(startDate)));
+            preparedStatement.setDate(4, java.sql.Date.valueOf(LocalDate.parse(endDate)));
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateEvent(int id, String name, String description, String startDate, String endDate) {
+        try (Connection connection = DatabaseManager.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "UPDATE events SET name = ?, description = ?, start_date = ?, end_date = ? WHERE id = ?");
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, description);
+            preparedStatement.setDate(3, java.sql.Date.valueOf(LocalDate.parse(startDate)));
+            preparedStatement.setDate(4, java.sql.Date.valueOf(LocalDate.parse(endDate)));
+            preparedStatement.setInt(5, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteEvent(int id) {
+        try (Connection connection = DatabaseManager.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM events WHERE id = ?");
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        //Blog CRUD
+    public List<Blog> getAllBlogs() {
+        List<Blog> blogs = new ArrayList<>();
+
+        try (Connection connection = DatabaseManager.getConnection()) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM blogs");
+
+            while (resultSet.next()) {
+                Blog blog = new Blog(
+                        resultSet.getInt("id"),
+                        resultSet.getString("title"),
+                        resultSet.getString("content"),
+                        resultSet.getDate("publish_date").toLocalDate(),
+                        resultSet.getString("author")
+                );
+                blogs.add(blog);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return blogs;
+    }
+
+    public Blog getBlog(int id) {
+        Blog blog = null;
+
+        try (Connection connection = DatabaseManager.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM blogs WHERE id = ?");
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                blog = new Blog(
+                        resultSet.getInt("id"),
+                        resultSet.getString("title"),
+                        resultSet.getString("content"),
+                        resultSet.getDate("publish_date").toLocalDate(),
+                        resultSet.getString("author")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return blog;
+    }
+
+    public void createBlog(String title, String content, String publishDate, String author) {
+        try (Connection connection = DatabaseManager.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "INSERT INTO blogs (title, content, publish_date, author) VALUES (?, ?, ?, ?)");
+            preparedStatement.setString(1, title);
+            preparedStatement.setString(2, content);
+            preparedStatement.setDate(3, java.sql.Date.valueOf(LocalDate.parse(publishDate)));
+            preparedStatement.setString(4, author);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateBlog(int id, String title, String content, String publishDate, String author) {
+        try (Connection connection = DatabaseManager.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "UPDATE blogs SET title = ?, content = ?, publish_date = ?, author = ? WHERE id = ?");
+            preparedStatement.setString(1, title);
+            preparedStatement.setString(2, content);
+            preparedStatement.setDate(3, java.sql.Date.valueOf(LocalDate.parse(publishDate)));
+            preparedStatement.setString(4, author);
+            preparedStatement.setInt(5, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteBlog(int id) {
+        try (Connection connection = DatabaseManager.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM blogs WHERE id = ?");
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
