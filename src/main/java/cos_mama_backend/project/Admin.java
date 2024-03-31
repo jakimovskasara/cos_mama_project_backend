@@ -83,7 +83,8 @@ public class Admin {
                         resultSet.getString("name"),
                         resultSet.getString("description"),
                         resultSet.getDate("start_date").toLocalDate(),
-                        resultSet.getDate("end_date").toLocalDate()
+                        resultSet.getDate("end_date").toLocalDate(),
+                        resultSet.getString("location")
                 );
                 events.add(event);
             }
@@ -108,7 +109,8 @@ public class Admin {
                         resultSet.getString("name"),
                         resultSet.getString("description"),
                         resultSet.getDate("start_date").toLocalDate(),
-                        resultSet.getDate("end_date").toLocalDate()
+                        resultSet.getDate("end_date").toLocalDate(),
+                        resultSet.getString("location")
                 );
             }
         } catch (SQLException e) {
@@ -118,7 +120,7 @@ public class Admin {
         return event;
     }
 
-    public void createEvent(String name, String description, String startDate, String endDate) {
+    public void createEvent(String name, String description, String startDate, String endDate, String location) {
         try (Connection connection = DatabaseManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO events (name, description, start_date, end_date) VALUES (?, ?, ?, ?)");
@@ -126,13 +128,14 @@ public class Admin {
             preparedStatement.setString(2, description);
             preparedStatement.setDate(3, java.sql.Date.valueOf(LocalDate.parse(startDate)));
             preparedStatement.setDate(4, java.sql.Date.valueOf(LocalDate.parse(endDate)));
+            preparedStatement.setString(5, location);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void updateEvent(int id, String name, String description, String startDate, String endDate) {
+    public void updateEvent(int id, String name, String description, String startDate, String endDate, String location) {
         try (Connection connection = DatabaseManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "UPDATE events SET name = ?, description = ?, start_date = ?, end_date = ? WHERE id = ?");
@@ -140,7 +143,8 @@ public class Admin {
             preparedStatement.setString(2, description);
             preparedStatement.setDate(3, java.sql.Date.valueOf(LocalDate.parse(startDate)));
             preparedStatement.setDate(4, java.sql.Date.valueOf(LocalDate.parse(endDate)));
-            preparedStatement.setInt(5, id);
+            preparedStatement.setString(5, location);
+            preparedStatement.setInt(6, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
