@@ -35,9 +35,9 @@ public interface AdminRepo {
 
     Blog getBlog(int id) throws SQLException;
 
-    void createBlog(String title, String content, LocalDate publishDate, String author) throws SQLException;
+    void createBlog(String title, String content, LocalDate dateOfCreation, String author) throws SQLException;
 
-    void updateBlog(int id, String title, String content, LocalDate publishDate, String author) throws SQLException;
+    void updateBlog(int id, String title, String content, LocalDate dateOfCreation, String author) throws SQLException;
 
     void deleteBlog(int id) throws SQLException;
 }
