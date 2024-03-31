@@ -12,8 +12,8 @@ public class EventRegistration {
     @Autowired
     private EventRepo eventRepo;
 
-    public Event registerEvent(String name, String description, LocalDateTime startDate, LocalDateTime endDate, String location, String organizer, String category) {
-        Event newEvent = new Event(name, description, startDate, endDate, location, organizer, category);
+    public Event registerEvent(String name, String description, LocalDateTime startDate, LocalDateTime endDate, String location) {
+        Event newEvent = new Event(name, description, startDate, endDate, location);
         return eventRepo.save(newEvent);
     }
 
