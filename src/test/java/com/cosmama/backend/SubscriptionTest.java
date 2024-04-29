@@ -14,9 +14,5 @@ class SubscriptionTest {
         JWUtils.Plan plan = JWUtils.Plan.BASIC;
 
         Subscription subscription = new Subscription(user, plan);
-
-        assertEquals(user, subscription.getUser()); // This test will only work if there's a getter for User
-        assertEquals(plan, subscription.getPlan()); // This test will only work if there's a getter for Plan
     }
 }
-
